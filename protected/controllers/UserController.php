@@ -181,7 +181,7 @@ class UserController extends Controller
             $ghClient = new GitHubClient($model->gitHubAccount);
             $repos = $ghClient->getRepoList();
 			header('Content-type: application/json', true, 200);
-            echo json_encode($repos);
+            echo $_GET['jsonp_callback'] . '(' . json_encode($repos) . ')';
         } else 
 		{
             echo json_encode(array(
