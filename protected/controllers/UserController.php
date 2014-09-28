@@ -183,15 +183,15 @@ class UserController extends Controller
 			$this->_sendAjaxResponse($repos);
         } else 
 		{
-            $content = array("Error: " => "No repos found for user with id " . $id);
-			$this->_sendAjaxResponse($content);
+			$this->_sendAjaxResponse(false);
         }
     }
 	
-	private function _sendAjaxResponse($content = null, $status = 200, $content_type = "application/json")
+	private function _sendAjaxResponse($content = false, $status = 200, $content_type = "application/json")
 	{
 		header("Content-type: " . $content_type, true, $status);
-		echo $_GET['jsonp_callback'] . '(' . json_encode($content) . ')';
+		header("Access-Control-Allow-Origin: *");
+		echo json_encode($content ? $content : array(array("error" => "No content found")));
 		Yii::app()->end();
 	}
 }
