@@ -1,0 +1,8 @@
+/nbproject/
+/index*.php
+/protected/config/*
+/nbproject/
+/assets/*
+/protected/runtime/
+.htaccess
+PracticeController.php
