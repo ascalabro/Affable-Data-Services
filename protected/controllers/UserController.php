@@ -176,17 +176,22 @@ class UserController extends Controller
 	public function actionGetGitHubRepos($id) 
 	{
         $model = User::model()->findByPk($id);
-        if ($model->gitHubAccount != null) 
+        if ($model != null && $model->gitHubAccount != null) 
 		{
             $ghClient = new GitHubClient($model->gitHubAccount);
             $repos = $ghClient->getRepoList();
-			header('Content-type: application/json', true, 200);
-            echo $_GET['jsonp_callback'] . '(' . json_encode($repos) . ')';
+			$this->_sendAjaxResponse($repos);
         } else 
 		{
-            echo json_encode(array(
-                "Error: " => "No repos found for user with id " . $id
-            ));
+            $content = array("Error: " => "No repos found for user with id " . $id);
+			$this->_sendAjaxResponse($content);
         }
     }
+	
+	private function _sendAjaxResponse($content = null, $status = 200, $content_type = "application/json")
+	{
+		header("Content-type: " . $content_type, true, $status);
+		echo $_GET['jsonp_callback'] . '(' . json_encode($content) . ')';
+		Yii::app()->end();
+	}
 }
