@@ -4,5 +4,6 @@
 /nbproject/
 /assets/*
 /protected/runtime/
+/.idea/
 .htaccess
 PracticeController.php
