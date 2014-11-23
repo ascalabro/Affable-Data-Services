@@ -1,6 +1,6 @@
 <?php
 
-class RestfulResponseController extends Controller 
+class RestController extends Controller 
 {
     	protected function _sendResponse($content = false, $status = 200, $content_type = "application/json")
 	{

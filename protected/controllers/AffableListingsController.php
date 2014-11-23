@@ -1,6 +1,6 @@
 <?php
 
-class AffableListingsController extends RestfulResponseController {
+class AffableListingsController extends RestController {
     
     public function actionGetAllComputerListings() 
     {

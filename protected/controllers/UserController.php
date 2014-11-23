@@ -1,6 +1,6 @@
 <?php
 
-class UserController extends RestfulResponseController
+class UserController extends RestController
 {
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -60,19 +60,23 @@ class UserController extends RestfulResponseController
 		}
 	}
 	
+        /**
+         * This returns a user's repo list if the account has github credentials stored
+         * @param int $id User id
+         */
 	public function actionGetGitHubRepos($id) 
 	{
-        $model = User::model()->findByPk($id);
-        if ($model != null && $model->gitHubAccount != null) 
-		{
-            $ghClient = new GitHubClient($model->gitHubAccount);
-            $repos = $ghClient->getRepoList();
-			$this->_sendResponse($repos);
-        } else 
-		{
-			$this->_sendResponse(false);
+            $model = User::model()->findByPk($id);
+            if ($model != null && $model->gitHubAccount != null) 
+                    {
+                $ghClient = new GitHubClient($model->gitHubAccount);
+                $repos = $ghClient->getRepoList();
+                            $this->_sendResponse($repos);
+            } else 
+                    {
+                            $this->_sendResponse(false);
+            }
         }
-    }
 	
 
 }
