@@ -1,9 +1,9 @@
 <?php
 
 /**
- * This is the model class for table "laptop_listing".
+ * This is the model class for table "listing".
  *
- * The followings are the available columns in table 'laptop_listing':
+ * The followings are the available columns in table 'listing':
  * @property integer $id
  * @property string $default_img
  * @property string $brand_name
@@ -15,9 +15,9 @@
  * @property integer $hit_count
  *
  * The followings are the available model relations:
- * @property LaptopListingImage[] $laptopListingImages
+ * @property ListingImage[] $laptopListingImages
  */
-class LaptopListing extends CActiveRecord
+class Listing extends CActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.
@@ -42,7 +42,7 @@ class LaptopListing extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'laptop_listing';
+		return 'listing';
 	}
 
 	/**
@@ -74,7 +74,7 @@ class LaptopListing extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'laptopListingImages' => array(self::HAS_MANY, 'LaptopListingImage', 'laptop_listing_id'),
+			'listingImages' => array(self::HAS_MANY, 'ListingImage', 'listing_id'),
 		);
 	}
 

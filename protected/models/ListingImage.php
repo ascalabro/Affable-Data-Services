@@ -1,17 +1,17 @@
 <?php
 
 /**
- * This is the model class for table "laptop_listing_image".
+ * This is the model class for table "listing_image".
  *
- * The followings are the available columns in table 'laptop_listing_image':
+ * The followings are the available columns in table 'listing_image':
  * @property integer $id
  * @property string $path
- * @property integer $laptop_listing_id
+ * @property integer $listing_id
  *
  * The followings are the available model relations:
- * @property LaptopListing $laptopListing
+ * @property Listing $listing
  */
-class LaptopListingImage extends CActiveRecord
+class ListingImage extends CActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.
@@ -36,7 +36,7 @@ class LaptopListingImage extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'laptop_listing_image';
+		return 'listing_image';
 	}
 
 	/**
@@ -47,11 +47,11 @@ class LaptopListingImage extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('laptop_listing_id', 'numerical', 'integerOnly'=>true),
+			array('listing_id', 'numerical', 'integerOnly'=>true),
 			array('path', 'length', 'max'=>256),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, path, laptop_listing_id', 'safe', 'on'=>'search'),
+			array('id, path, listing_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -63,7 +63,7 @@ class LaptopListingImage extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'laptopListing' => array(self::BELONGS_TO, 'LaptopListing', 'laptop_listing_id'),
+			'listing' => array(self::BELONGS_TO, 'Listing', 'listing_id'),
 		);
 	}
 
@@ -75,7 +75,7 @@ class LaptopListingImage extends CActiveRecord
 		return array(
 			'id' => 'ID',
 			'path' => 'Path',
-			'laptop_listing_id' => 'Laptop Listing',
+			'listing_id' => 'Listing',
 		);
 	}
 
@@ -92,7 +92,7 @@ class LaptopListingImage extends CActiveRecord
 
 		$criteria->compare('id',$this->id);
 		$criteria->compare('path',$this->path,true);
-		$criteria->compare('laptop_listing_id',$this->laptop_listing_id);
+		$criteria->compare('listing_id',$this->listing_id);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
