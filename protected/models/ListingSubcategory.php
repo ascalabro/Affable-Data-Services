@@ -1,22 +1,24 @@
 <?php
 
 /**
- * This is the model class for table "listing_image".
+ * This is the model class for table "listing_subcategory".
  *
- * The followings are the available columns in table 'listing_image':
+ * The followings are the available columns in table 'listing_subcategory':
  * @property integer $id
- * @property string $path
- * @property integer $listing_id
+ * @property string $name
+ * @property string $slug
+ * @property integer $parent_category_id
+ * @property integer $status
  *
  * The followings are the available model relations:
- * @property Listing $listing
+ * @property ListingCategory $parentCategory
  */
-class ListingImage extends CActiveRecord
+class ListingSubcategory extends CActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
-	 * @return ListingImage the static model class
+	 * @return ListingSubcategory the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -28,7 +30,7 @@ class ListingImage extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'listing_image';
+		return 'listing_subcategory';
 	}
 
 	/**
@@ -39,12 +41,12 @@ class ListingImage extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('path, listing_id', 'required'),
-			array('listing_id', 'numerical', 'integerOnly'=>true),
-			array('path', 'length', 'max'=>256),
+			array('name, parent_category_id', 'required'),
+			array('parent_category_id, status', 'numerical', 'integerOnly'=>true),
+			array('name, slug', 'length', 'max'=>128),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, path, listing_id', 'safe', 'on'=>'search'),
+			array('id, name, slug, parent_category_id, status', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -56,7 +58,7 @@ class ListingImage extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'listing' => array(self::BELONGS_TO, 'Listing', 'listing_id'),
+			'parentCategory' => array(self::BELONGS_TO, 'ListingCategory', 'parent_category_id'),
 		);
 	}
 
@@ -67,8 +69,10 @@ class ListingImage extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'path' => 'Path',
-			'listing_id' => 'Listing',
+			'name' => 'Name',
+			'slug' => 'Slug',
+			'parent_category_id' => 'Parent Category',
+			'status' => 'Status',
 		);
 	}
 
@@ -84,8 +88,10 @@ class ListingImage extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('path',$this->path,true);
-		$criteria->compare('listing_id',$this->listing_id);
+		$criteria->compare('name',$this->name,true);
+		$criteria->compare('slug',$this->slug,true);
+		$criteria->compare('parent_category_id',$this->parent_category_id);
+		$criteria->compare('status',$this->status);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

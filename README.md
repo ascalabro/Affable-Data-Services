@@ -1,4 +1,4 @@
 
-================ Club-RESTful-API ================
+================ Affable-Data-Services ================
 
-This is a RESTful API which will act as a data service provider for southeast.club & it's subdomains.
+This will act as a RESTful data service provider for affableitsolutions.com

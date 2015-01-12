@@ -13,28 +13,21 @@
  * @property string $discount
  * @property string $last_change_date
  * @property integer $hit_count
+ * @property integer $status
  *
  * The followings are the available model relations:
- * @property ListingImage[] $laptopListingImages
+ * @property ListingImage[] $listingImages
  */
 class Listing extends CActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
-	 * @return LaptopListing the static model class
+	 * @return Listing the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
-	}
-
-	/**
-	 * @return CDbConnection database connection
-	 */
-	public function getDbConnection()
-	{
-		return Yii::app()->dbAffable;
 	}
 
 	/**
@@ -54,7 +47,7 @@ class Listing extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('default_img, brand_name', 'required'),
-			array('hit_count', 'numerical', 'integerOnly'=>true),
+			array('hit_count, status', 'numerical', 'integerOnly'=>true),
 			array('default_img, brand_name', 'length', 'max'=>100),
 			array('title', 'length', 'max'=>128),
 			array('price', 'length', 'max'=>6),
@@ -62,7 +55,7 @@ class Listing extends CActiveRecord
 			array('description, last_change_date', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, default_img, brand_name, title, description, price, discount, last_change_date, hit_count', 'safe', 'on'=>'search'),
+			array('id, default_img, brand_name, title, description, price, discount, last_change_date, hit_count, status', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -93,6 +86,7 @@ class Listing extends CActiveRecord
 			'discount' => 'Discount',
 			'last_change_date' => 'Last Change Date',
 			'hit_count' => 'Hit Count',
+			'status' => 'Status',
 		);
 	}
 
@@ -116,6 +110,7 @@ class Listing extends CActiveRecord
 		$criteria->compare('discount',$this->discount,true);
 		$criteria->compare('last_change_date',$this->last_change_date,true);
 		$criteria->compare('hit_count',$this->hit_count);
+		$criteria->compare('status',$this->status);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

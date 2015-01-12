@@ -19,21 +19,9 @@ CREATE TABLE IF NOT EXISTS `listing` (
   `discount` decimal(4,2) DEFAULT NULL,
   `last_change_date` date DEFAULT NULL,
   `hit_count` int(5) DEFAULT '0',
+  `status` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=33 ;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `listing_category`
---
-
-CREATE TABLE IF NOT EXISTS `listing_category` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(128) NOT NULL,
-  `slug` varchar(128) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 -- --------------------------------------------------------
 
@@ -52,6 +40,27 @@ CREATE TABLE IF NOT EXISTS `listing_image` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `listing_category`
+--
+
+CREATE TABLE IF NOT EXISTS `listing_category` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(128) NOT NULL,
+  `slug` varchar(128) DEFAULT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `listing_category`
+--
+
+INSERT INTO `listing_category` (`id`, `name`, `slug`) VALUES
+(1, 'Computers', 'computers');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `listing_subcategory`
 --
 
@@ -60,6 +69,7 @@ CREATE TABLE IF NOT EXISTS `listing_subcategory` (
   `name` varchar(128) NOT NULL,
   `slug` varchar(128) DEFAULT NULL,
   `parent_category_id` int(11) NOT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
   KEY `fk_cat2parent` (`parent_category_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
