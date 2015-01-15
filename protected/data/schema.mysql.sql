@@ -97,3 +97,46 @@ ALTER TABLE `listing_image`
 --
 ALTER TABLE `listing_subcategory`
   ADD CONSTRAINT `fk_cat2parent` FOREIGN KEY (`parent_category_id`) REFERENCES `listing_category` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `m2m_listing_subcategory`
+--
+
+CREATE TABLE IF NOT EXISTS `m2m_listing_subcategory` (
+  `subcategory_id` int(11) NOT NULL,
+  `listing_id` int(11) NOT NULL,
+  PRIMARY KEY (`subcategory_id`,`listing_id`),
+  KEY `fk_category_2listing` (`listing_id`),
+  KEY `fk_listing_2category` (`subcategory_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Constraints for table `m2m_listing_subcategory`
+--
+ALTER TABLE `m2m_listing_subcategory`
+  ADD CONSTRAINT `fk_category_2listing0` FOREIGN KEY (`listing_id`) REFERENCES `listing` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_listing_2category0` FOREIGN KEY (`subcategory_id`) REFERENCES `listing_subcategory` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `m2m_listing_category`
+--
+
+CREATE TABLE IF NOT EXISTS `m2m_listing_category` (
+  `category_id` int(11) NOT NULL,
+  `listing_id` int(11) NOT NULL,
+  PRIMARY KEY (`category_id`,`listing_id`),
+  KEY `fk_category_2listing` (`listing_id`),
+  KEY `fk_listing_2category` (`category_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Constraints for table `m2m_listing_category`
+--
+ALTER TABLE `m2m_listing_category`
+  ADD CONSTRAINT `fk_category_2listing` FOREIGN KEY (`listing_id`) REFERENCES `listing` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_listing_2category` FOREIGN KEY (`category_id`) REFERENCES `listing_category` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;

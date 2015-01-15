@@ -1,25 +1,18 @@
 <?php
 
 /**
- * This is the model class for table "listing_subcategory".
+ * This is the model class for table "m2m_listing_subcategory".
  *
- * The followings are the available columns in table 'listing_subcategory':
- * @property integer $id
- * @property string $name
- * @property string $slug
- * @property integer $parent_category_id
- * @property integer $status
- *
- * The followings are the available model relations:
- * @property ListingCategory $parentCategory
- * @property Listing[] $listings
+ * The followings are the available columns in table 'm2m_listing_subcategory':
+ * @property integer $subcategory_id
+ * @property integer $listing_id
  */
-class ListingSubcategory extends CActiveRecord
+class M2mListingSubcategory extends CActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
-	 * @return ListingSubcategory the static model class
+	 * @return M2mListingSubcategory the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -31,7 +24,7 @@ class ListingSubcategory extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'listing_subcategory';
+		return 'm2m_listing_subcategory';
 	}
 
 	/**
@@ -42,12 +35,11 @@ class ListingSubcategory extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name, parent_category_id', 'required'),
-			array('parent_category_id, status', 'numerical', 'integerOnly'=>true),
-			array('name, slug', 'length', 'max'=>128),
+			array('subcategory_id, listing_id', 'required'),
+			array('subcategory_id, listing_id', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, name, slug, parent_category_id, status', 'safe', 'on'=>'search'),
+			array('subcategory_id, listing_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -59,8 +51,6 @@ class ListingSubcategory extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'parentCategory' => array(self::BELONGS_TO, 'ListingCategory', 'parent_category_id'),
-			'listings' => array(self::MANY_MANY, 'Listing', 'm2m_listing_subcategory(subcategory_id, listing_id)'),
 		);
 	}
 
@@ -70,11 +60,8 @@ class ListingSubcategory extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' => 'ID',
-			'name' => 'Name',
-			'slug' => 'Slug',
-			'parent_category_id' => 'Parent Category',
-			'status' => 'Status',
+			'subcategory_id' => 'Subcategory',
+			'listing_id' => 'Listing',
 		);
 	}
 
@@ -89,11 +76,8 @@ class ListingSubcategory extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('id',$this->id);
-		$criteria->compare('name',$this->name,true);
-		$criteria->compare('slug',$this->slug,true);
-		$criteria->compare('parent_category_id',$this->parent_category_id);
-		$criteria->compare('status',$this->status);
+		$criteria->compare('subcategory_id',$this->subcategory_id);
+		$criteria->compare('listing_id',$this->listing_id);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

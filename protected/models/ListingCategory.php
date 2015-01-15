@@ -10,7 +10,8 @@
  * @property integer $status
  *
  * The followings are the available model relations:
- * @property ListingSubcategory[] $subcategories
+ * @property ListingSubcategory[] $listingSubcategories
+ * @property Listing[] $listings
  */
 class ListingCategory extends CActiveRecord
 {
@@ -58,6 +59,7 @@ class ListingCategory extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'subcategories' => array(self::HAS_MANY, 'ListingSubcategory', 'parent_category_id'),
+			'listings' => array(self::MANY_MANY, 'Listing', 'm2m_listing_category(category_id, listing_id)'),
 		);
 	}
 

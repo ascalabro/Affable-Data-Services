@@ -17,6 +17,8 @@
  *
  * The followings are the available model relations:
  * @property ListingImage[] $listingImages
+ * @property ListingCategory[] $listingCategories
+ * @property ListingSubcategory[] $listingSubcategories
  */
 class Listing extends CActiveRecord
 {
@@ -68,6 +70,8 @@ class Listing extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'listingImages' => array(self::HAS_MANY, 'ListingImage', 'listing_id'),
+			'listingCategories' => array(self::MANY_MANY, 'ListingCategory', 'm2m_listing_category(listing_id, category_id)'),
+			'listingSubcategories' => array(self::MANY_MANY, 'ListingSubcategory', 'm2m_listing_subcategory(listing_id, subcategory_id)'),
 		);
 	}
 
