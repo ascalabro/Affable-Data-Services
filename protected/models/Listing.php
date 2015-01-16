@@ -69,9 +69,9 @@ class Listing extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'listingImages' => array(self::HAS_MANY, 'ListingImage', 'listing_id'),
-			'listingCategories' => array(self::MANY_MANY, 'ListingCategory', 'm2m_listing_category(listing_id, category_id)'),
-			'listingSubcategories' => array(self::MANY_MANY, 'ListingSubcategory', 'm2m_listing_subcategory(listing_id, subcategory_id)'),
+			'images' => array(self::HAS_MANY, 'ListingImage', 'listing_id'),
+			'categories' => array(self::MANY_MANY, 'ListingCategory', 'm2m_listing_category(listing_id, category_id)'),
+			'subcategories' => array(self::MANY_MANY, 'ListingSubcategory', 'm2m_listing_subcategory(listing_id, subcategory_id)'),
 		);
 	}
 
