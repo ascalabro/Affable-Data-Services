@@ -2,9 +2,47 @@
 
 class AffableListingsController extends RestController {
 
-    public function actionGetListings($complete = false)
+    public function actionListing($listing_id = false, $complete = true, $category_id = false)
     {
-        $listings = $complete ? Listing::model()->with('categories')->with('subcategories')->with('images')->findAll() : Listing::model()->findAll();
+        if (!$listing_id) {
+            // fetch all listings
+            if ($category_id) {
+                $criteria = new CDbCriteria();
+                $criteria->condition = "`category`.`id` = :category_id";
+                $criteria->addCondition("`t`.`status` = :status");
+                $criteria->params = array(
+                    ":category_id" => (int)$category_id,
+                    ":status" => 1
+                );
+                $criteria->with = $complete ?
+                        array(
+                    "categories" => array("alias" => "category"),
+                    "subcategories",
+                    "images"
+                        ) :
+                        array(
+                    "categories" => array("alias" => "category"),
+                );
+            } else {
+                $criteria = new CDbCriteria(array(
+                    'condition' => "`t`.`status` = :status",
+                    'params' => array(':status' => 1)
+                ));
+                $criteria->with = $complete ?
+                        array(
+                    "categories" => array("alias" => "category"),
+                    "subcategories",
+                    "images"
+                        ) :
+                        array(
+                    "categories" => array("alias" => "category"),
+                );
+            }
+            $listings = Listing::model()->findAll($criteria);
+        } else {
+            // fetch single listing
+            $listings = $complete ? Listing::model()->with('categories')->with('subcategories')->with('images')->findByPk($listing_id) : Listing::model()->findByPk($listing_id);
+        }
         $this->_sendResponse(Helper::convertModelRelationsToArray($listings));
     }
 
@@ -13,9 +51,19 @@ class AffableListingsController extends RestController {
         $this->_sendResponse(Helper::convertModelRelationsToArray(Listing::model()->with('categories')->with('subcategories')->with('images')->findByPk($listing_id)));
     }
 
-    public function actionGetActiveCategoriesComplete()
+    public function actionCategory($status_code = false, $complete = false)
     {
-        $categories = ListingCategory::model()->with('subcategories')->findAll(array("condition" => "t.status = 1 AND subcategories.status = 1"));
+        $criteria = new CDbCriteria();
+        if ($status_code != "") {
+            $criteria->addCondition("t.status = :pstatus_code");
+            $criteria->params[":pstatus_code"] = (int) $status_code;
+            if ($complete) {
+                $criteria->addCondition("subcategories.status = :status_code");
+                $criteria->params[":status_code"] = (int) $status_code;
+                $criteria->with["subcategories"] = array("alias" => "subcategories");
+            }
+        }
+        $categories = ListingCategory::model()->findAll($criteria);
         $this->_sendResponse(Helper::convertModelRelationsToArray($categories));
     }
 
